@@ -1,0 +1,17 @@
+neobundle.vim
+neocomplcache
+neosnippet
+neosnippet-snippets
+nerdcommenter
+nerdtree
+simple-javascript-indenter
+syntastic
+unite.vim
+vim-javascript
+vim-json
+vim-markdown
+vim-quickrun
+vim-surround
+vimfiler
+vimproc
+vimshell
