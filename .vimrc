@@ -193,4 +193,4 @@ syntax on
 
 NeoBundleCheck
 
-
+let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
