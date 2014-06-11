@@ -400,7 +400,6 @@ g:vimshell_interactive_update_time
 		controls the timing of auto update.
 		|vimshell-internal-iexe| changes 'updatetime' based on this
 		value.
-		If it is 0, this feature is disabled.
 
 		Default value is 500.
 
@@ -566,9 +565,6 @@ Normal mode key mappings.
 <Plug>(vimshell_hangup)				*<Plug>(vimshell_hangup)*
 		Terminate command.
 
-<Plug>(vimshell_interrupt)			*<Plug>(vimshell_interrupt)*
-		Send interrupt.
-
 <Plug>(vimshell_insert_head)			*<Plug>(vimshell_insert_head)*
 					*<Plug>(vimshell_insert_enter)*
 <Plug>(vimshell_insert_enter)
@@ -680,6 +676,7 @@ q			<Plug>(vimshell_hide)
 Q			<Plug>(vimshell_exit)
 <C-p>			<Plug>(vimshell_previous_prompt)
 <C-n>			<Plug>(vimshell_next_prompt)
+<C-k>			<Plug>(vimshell_delete_previous_output)
 <C-y>			<Plug>(vimshell_paste_prompt)
 E			<Plug>(vimshell_move_end_argument)
 cc			<Plug>(vimshell_change_line)
@@ -689,8 +686,7 @@ A			<Plug>(vimshell_append_end)
 i			<Plug>(vimshell_insert_enter)
 a			<Plug>(vimshell_append_enter)
 ^			<Plug>(vimshell_move_head)
-<C-c>			<Plug>(vimshell_interrupt)
-<C-k>			<Plug>(vimshell_hangup)
+<C-c>			<Plug>(vimshell_hangup)
 <C-l>			<Plug>(vimshell_clear)
 <C-z>			<Plug>(vimshell_execute_by_background)
 
@@ -999,9 +995,9 @@ EXAMPLES						*vimshell-examples*
 	\| call vimshell#altercmd#define('i', 'iexe')
 	\| call vimshell#altercmd#define('l', 'll')
 	\| call vimshell#altercmd#define('ll', 'ls -l')
-	\| call vimshell#hook#add('chpwd', 'my_chpwd', 'MyChpwd')
+	\| call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
 	
-	function! MyChpwd(args, context)
+	function! g:my_chpwd(args, context)
 	  call vimshell#execute('ls')
 	endfunction
 	
@@ -1110,7 +1106,7 @@ gcd [{directory-path}]				*vimshell-internal-gcd*
 
 gendoc {command} {args}				*vimshell-internal-gendoc*
 		Executes {command} with {args} and saves output in
-		"g:vimshell_data_directory/cached-doc".  You can read
+		"g:vimshell_temporary_directory/cached-doc".  You can read
 		cached outputs using |echodoc|.
 		Note: This command caches first output line only.
 
@@ -1385,9 +1381,9 @@ Next examples set hook in "chpwd".  This hook execute ls internal command when
 current directory is changed.
 >
 	autocmd FileType vimshell
-	\ call vimshell#hook#add('chpwd', 'my_chpwd', 'MyChpwd')
+	\ call vimshell#hook#add('chpwd', 'my_chpwd', 'g:my_chpwd')
 	
-	function! MyChpwd(args, context)
+	function! g:my_chpwd(args, context)
 		call vimshell#execute('ls')
 	endfunction
 <

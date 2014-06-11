@@ -4,9 +4,8 @@ set whichwrap=b,s,[,],<,>
 set backspace=indent,eol,start
 "□や○の文字があってもカーソル位置がずれないようにする
 set ambiwidth=double
-
-set cursorline
 "カーソル行の背景色を変更する
+set cursorline
 
 "----------------------------------------
 " 検索
@@ -26,7 +25,7 @@ set hlsearch
 "vimgrep をデフォルトのgrepとする場合internal
 "set grepprg=internal
 "
-""----------------------------------------
+"---------------------------------------
 " 表示設定
 "----------------------------------------
 "スプラッシュ(起動時のメッセージ)を表示しない
@@ -69,29 +68,36 @@ set expandtab
 set softtabstop=4
 set shiftwidth=4
 
-" grep検索を設定する
+"grep検索を設定する
 set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
 set grepprg=grep\ -nh
 
-" " 検索結果のハイライトをEsc連打でクリアする
+"検索結果のハイライトをEsc連打でクリアする
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
-" md as markdown, instead of modula2
+"md,mdwn,mkd,mkdn,markの拡張子を持つファイルはmarkdownファイルとして認識する
 autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " ハイライトを有効にする
 if &t_Co > 2 || has('gui_running')
   syntax on
 endif
+"--------------------------------------
 "キーバインド
+"---------------------------------------
+"¥と\を逆にする
 noremap! ¥ \
 noremap \ ¥
+"一文単位の上下ではなく、視覚的な上下で移動する
 noremap j gj
 noremap k gk
 noremap <Down> gj
 noremap <Up> gk
+"F2でNERDTreeを開閉する
 nnoremap <f2> :NERDTreeToggle<CR>
+"Ctrl + L でEscと同じ効果
 noremap! <C-l>   <Esc>
+"insert（挿入）モードの時にShift+移動で選択を開始する
 noremap! <S-UP> <ESC>v<UP>
 noremap! <S-DOWN> <ESC>v<DOWN>
 noremap! <S-Left> <ESC>v
@@ -134,11 +140,13 @@ if has('vim_starting') &&  file_name == ""
     autocmd VimEnter * NERDTree ./
 endif
 
+"vimが起動したとき新しい導入プラグインがあったらインストールを確認する
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 let 
 
+"GUIモードで起動したときはフルスクリーンで始める
 if has("gui_running")
 set fuoptions=maxvert,maxhorz
 au GUIEnter * set fullscreen
@@ -151,6 +159,8 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " <TAB>: completion.
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+"自作のスニペットファイルも指定して適応する
+let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
 
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -166,6 +176,9 @@ if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 
+"--------------------------
+"導入プラグイン
+"--------------------------
 
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -185,6 +198,7 @@ NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "elzr/vim-json"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "thinca/vim-quickrun"
+NeoBundle "kien/ctrlp.vim"
 " add plugins
 
 filetype plugin indent on
@@ -192,5 +206,3 @@ filetype indent on
 syntax on
 
 NeoBundleCheck
-
-let g:neosnippet#snippets_directory=$HOME.'/.vim/snippets'
