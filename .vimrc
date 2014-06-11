@@ -72,9 +72,6 @@ set shiftwidth=4
 set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
 set grepprg=grep\ -nh
 
-"検索結果のハイライトをEsc連打でクリアする
-nnoremap <ESC><ESC> :nohlsearch<CR>
-
 "md,mdwn,mkd,mkdn,markの拡張子を持つファイルはmarkdownファイルとして認識する
 autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
@@ -102,6 +99,15 @@ noremap! <S-UP> <ESC>v<UP>
 noremap! <S-DOWN> <ESC>v<DOWN>
 noremap! <S-Left> <ESC>v
 noremap! <S-Right> <ESC><Right>v
+"検索結果のハイライトをEsc連打でクリアする
+nnoremap <ESC><ESC> :nohlsearch<CR>
+"カンマ + o でアウトラインを表示
+let g:unite_enable_split_vertically = 0
+"アウトラインの幅指定
+let g:unite_winwidth = 40
+"表示位置は道
+let g:unite_split_rule = "rightbelow"
+nnoremap <silent> ,o :<C-u>Unite -vertical -winheight=0 -no-quit outline<CR>
 
 " 全角スペース・行末のスペース・タブの可視化
 if has("syntax")
@@ -140,16 +146,17 @@ if has('vim_starting') &&  file_name == ""
     autocmd VimEnter * NERDTree ./
 endif
 
-"vimが起動したとき新しい導入プラグインがあったらインストールを確認する
+"vimが起動したとき
 if has('vim_starting')
+  "新しい導入プラグインがあったらインストールを確認する
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-let 
 
-"GUIモードで起動したときはフルスクリーンで始める
+"GUIモードで起動したとき
 if has("gui_running")
-set fuoptions=maxvert,maxhorz
-au GUIEnter * set fullscreen
+    "フルスクリーンで始める
+    set fuoptions=maxvert,maxhorz
+    au GUIEnter * set fullscreen
 endif
 
 
@@ -199,6 +206,7 @@ NeoBundle "elzr/vim-json"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "thinca/vim-quickrun"
 NeoBundle "kien/ctrlp.vim"
+NeoBundle "h1mesuke/unite-outline"
 " add plugins
 
 filetype plugin indent on
