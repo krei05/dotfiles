@@ -116,3 +116,9 @@ options head
      * c-hanging-comment-ender-p: nil
      * End:
      */
+
+snippet cap
+options head
+        Ext.util.Observable.capture(me, function() {
+            console.log(arguments);
+        });${1}
