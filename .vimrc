@@ -6,7 +6,8 @@ set backspace=indent,eol,start
 set ambiwidth=double
 "カーソル行の背景色を変更する
 set cursorline
-
+"制限解除
+set modifiable
 "----------------------------------------
 " 検索
 "----------------------------------------
@@ -36,8 +37,6 @@ set novisualbell
 set visualbell t_vb=
 "マクロ実行中などの画面再描画を行わない
 "set lazyredraw
-"Windowsでディレクトリパスの区切り文字表示に / を使えるようにする
-set shellslash
 "行番号表示
 set number
 "括弧の対応表示時間
@@ -69,11 +68,11 @@ set softtabstop=4
 set shiftwidth=4
 
 "grep検索を設定する
-set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m,%f
-set grepprg=grep\ -nh
+set grepformat=%f:%l:%m,%f:%l%m,%f  %l%m
+set grepprg=grep\ -n
 
 "md,mdwn,mkd,mkdn,markの拡張子を持つファイルはmarkdownファイルとして認識する
-autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+"autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " ハイライトを有効にする
 if &t_Co > 2 || has('gui_running')
@@ -99,6 +98,10 @@ noremap! <S-UP> <ESC>v<UP>
 noremap! <S-DOWN> <ESC>v<DOWN>
 noremap! <S-Left> <ESC>v
 noremap! <S-Right> <ESC><Right>v
+"ファイル内全てHTMLコメントアウトして下にコピーもする
+noremap ,/ gg<S-v><S-g>yggi<!--<ESC><S-g>$a--><ESC>o<ESC>p
+"行をHTMLコメントアウトして下にコピーする
+noremap ,. <S-v>y0i<!--<ESC>$a--><ESC>o<ESC>p
 "検索結果のハイライトをEsc連打でクリアする
 nnoremap <ESC><ESC> :nohlsearch<CR>
 "カンマ + o でアウトラインを表示
@@ -108,6 +111,17 @@ let g:unite_winwidth = 40
 "表示位置は道
 let g:unite_split_rule = "rightbelow"
 nnoremap <silent> ,o :<C-u>Unite -vertical -winheight=0 -no-quit outline<CR>
+
+"Jqコマンド
+command! -nargs=? Jq call s:Jq(<f-args>)
+function! s:Jq(...)
+    if 0 == a:0
+        let l:arg = "."
+    else
+        let l:arg = a:1
+    endif
+    execute "%! jq 95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;" . l:arg . "95fe1a73-e2e2-4737-bea1-a44257c50fc8quot;"
+endfunction
 
 " 全角スペース・行末のスペース・タブの可視化
 if has("syntax")
@@ -153,13 +167,20 @@ if has('vim_starting')
 endif
 
 "GUIモードで起動したとき
-if has("gui_running")
-    "フルスクリーンで始める
-    set fuoptions=maxvert,maxhorz
-    au GUIEnter * set fullscreen
-endif
+"if has("gui_running")
+"    "フルスクリーンで始める
+"    set fuoptions=maxvert,maxhorz
+"    au GUIEnter * set fullscreen
+"endif
 
-
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \     'windows' : 'tools\\update-dll-mingw',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 "neosnippet
@@ -202,7 +223,6 @@ NeoBundle "scrooloose/nerdcommenter"
 NeoBundle "tpope/vim-surround"
 NeoBundle "scrooloose/syntastic"
 NeoBundle "jiangmiao/simple-javascript-indenter"
-NeoBundle "elzr/vim-json"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "thinca/vim-quickrun"
 NeoBundle "kien/ctrlp.vim"
@@ -210,7 +230,6 @@ NeoBundle "h1mesuke/unite-outline"
 " add plugins
 
 filetype plugin indent on
-filetype indent on
 syntax on
 
 NeoBundleCheck
