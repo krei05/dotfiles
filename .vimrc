@@ -72,7 +72,7 @@ set grepformat=%f:%l:%m,%f:%l%m,%f  %l%m
 set grepprg=grep\ -n
 
 "md,mdwn,mkd,mkdn,markの拡張子を持つファイルはmarkdownファイルとして認識する
-"autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd MyAutoGroup BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 " ハイライトを有効にする
 if &t_Co > 2 || has('gui_running')
@@ -104,6 +104,15 @@ noremap ,/ gg<S-v><S-g>yggi<!--<ESC><S-g>$a--><ESC>o<ESC>p
 noremap ,. <S-v>y0i<!--<ESC>$a--><ESC>o<ESC>p
 "検索結果のハイライトをEsc連打でクリアする
 nnoremap <ESC><ESC> :nohlsearch<CR>
+"選択中のファイルをNERDTree で探して開く
+nnoremap <f3> :NERDTreeFind<CR>
+nnoremap <C-h> :NERDTreeFind<CR>
+"最近使ったファイル一覧を表示する
+nnoremap <f4> :Unite file_mru<CR>
+nnoremap <C-k> :Unite file_mru<CR>
+"現在開いているバッファ一覧
+nnoremap <f5> :Unite buffer<CR>
+nnoremap <C-j> :Unite buffer<CR>
 "カンマ + o でアウトラインを表示
 let g:unite_enable_split_vertically = 0
 "アウトラインの幅指定
@@ -226,7 +235,10 @@ NeoBundle "jiangmiao/simple-javascript-indenter"
 NeoBundle "rcmdnk/vim-markdown"
 NeoBundle "thinca/vim-quickrun"
 NeoBundle "kien/ctrlp.vim"
-NeoBundle "h1mesuke/unite-outline"
+NeoBundle "Shougo/unite-outline"
+NeoBundle "tyru/restart.vim"
+NeoBundle 'Shougo/neomru.vim'
+
 " add plugins
 
 filetype plugin indent on
