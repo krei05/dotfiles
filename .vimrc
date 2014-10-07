@@ -109,10 +109,10 @@ nnoremap <f3> :NERDTreeFind<CR>
 nnoremap <C-h> :NERDTreeFind<CR>
 "最近使ったファイル一覧を表示する
 nnoremap <f4> :Unite file_mru<CR>
-nnoremap <C-k> :Unite file_mru<CR>
+nnoremap <C-j> :Unite file_mru<CR>
 "現在開いているバッファ一覧
 nnoremap <f5> :Unite buffer<CR>
-nnoremap <C-j> :Unite buffer<CR>
+nnoremap <C-k> :Unite buffer<CR>
 "カンマ + o でアウトラインを表示
 let g:unite_enable_split_vertically = 0
 "アウトラインの幅指定
